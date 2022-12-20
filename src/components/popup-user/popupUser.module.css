@@ -1,0 +1,28 @@
+.popup {
+    position: absolute;
+    background: #fff;
+    filter: drop-shadow(0 0 20px rgba(0,0,0,.1));
+    border-radius: 5px;
+    z-index: 999;
+    width: 200px;
+    right: 0;
+    margin-top: 15px;
+    padding: 15px;
+}
+
+.popup .button {
+    padding: 0;
+    margin: 12px 0;
+    font-size: 15px;
+}
+
+.popup .button_exit {
+    margin-bottom: 0;
+}
+
+.user_menu {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}

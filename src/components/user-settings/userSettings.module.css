@@ -1,0 +1,39 @@
+.user_settings {
+    background: #fff;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: 'Oswald', sans-serif;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.form label {
+    display: flex;
+    white-space: nowrap;
+    margin-bottom: 15px;
+    max-width: 700px;
+}
+
+.form label input {
+    margin-left: 15px;
+    min-width: 100%;
+}
+
+.btn_submit {
+    background-color: #41A23B;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    padding: 10px;
+}
+
+.btn_submit:hover {
+    background-color: #DA251E;
+}

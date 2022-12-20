@@ -1,0 +1,12 @@
+.app {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0 auto;
+}
+
+.container {
+  max-width: 1460px;
+  margin: 0 auto;
+}

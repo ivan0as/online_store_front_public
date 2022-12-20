@@ -1,0 +1,33 @@
+.sales {
+    font-family: 'Oswald', sans-serif;
+}
+
+.sale {
+    margin: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.sale_info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sales_lineups {
+    display: flex;
+    border: 1px solid #41A23B;
+    border-radius: 10px;
+    align-items: center;
+}
+
+.sale_lineup {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    align-items: center;
+}
+
+.img_product {
+    width: 200px;
+}

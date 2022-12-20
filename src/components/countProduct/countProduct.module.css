@@ -1,0 +1,29 @@
+.minus, .plus {
+  border: none;
+  border-radius: 8px;
+  background: #C4C4C4;
+  height: 35px;
+}
+
+.minus:hover, .plus:hover {
+  background: #7A7A7A;
+}
+
+.minus {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.plus {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.amount {
+  height: 35px;
+  border: 1px solid #C4C4C4;
+}
+
+.amount:focus{
+  outline: none;
+}

@@ -1,0 +1,59 @@
+.sale {
+    margin: 25px;
+    font-family: 'Oswald', sans-serif;
+}
+
+.sale_info {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 22px;
+}
+
+.sale_info p:last-child {
+    margin-bottom: 0;
+}
+
+.sales_lineups {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 18px;
+    margin-top: 30px;
+}
+
+.sale_lineup {
+    display: flex;
+    border: 1px solid #7A7A7A;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.sale_lineup:last-child {
+    margin-bottom: 0;
+}
+
+.sale_lineup img {
+    width: 100px;
+    height: 100px;
+}
+
+.sale_lineup_product_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sale_lineup_product_info p:last-child {
+    margin-bottom: 0;
+}
+
+.sum {
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.sum p {
+    margin: 0;
+}

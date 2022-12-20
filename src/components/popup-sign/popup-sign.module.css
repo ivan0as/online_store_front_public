@@ -1,0 +1,123 @@
+.popup_sign {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid;
+    border-radius: 10px;
+    border-color: #41A23B;
+    width: 600px;
+    background-color: white;
+    z-index: 999;
+}
+
+.button_close {
+    background: none;
+    cursor: pointer;
+    position: absolute;
+    margin-left: 93%;
+    border: solid 2px;
+    border-radius: 50%;
+    border-color: #41A23B;
+    background-color: #41A23B;
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    line-height: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+.button_close:hover {
+    color: white;
+    background-color: #DA251E;
+    border-color: #DA251E;
+}
+
+.button_close img {
+    width: 30px;
+}
+
+@keyframes rotate {
+	to { transform: rotate(360deg); }
+}
+
+.img_loading {
+    margin: 25px 0;
+    width: 70px;
+    animation: rotate 2s infinite linear;
+}
+
+.bad_data {
+    font-family: 'Oswald', sans-serif;
+    font-size: 25px;
+}
+
+.form_sign p {
+    font-family: 'Oswald', sans-serif;
+    font-size: 25px;
+    margin: 10px 0;
+}
+
+.form_sign, .form_sign form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form_sign form label {
+    margin: 10px 0;
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+}
+
+.form_sign form label input {
+    margin-left: 15px;
+}
+
+.form_sign form button {
+    background: none;
+    cursor: pointer;
+    border: 3px solid;
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 8px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 21px;
+    border-color: #41A23B;
+    background-color: #41A23B;
+    color: #fff;
+}
+
+.form_sign form button:hover {
+    border-color: #DA251E;
+    background-color: #DA251E;
+}
+
+.btn_registration {
+    background: none;
+    border: none;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 16px;
+    text-decoration: none;
+    margin: 20px 0;
+}
+
+.btn_registration:hover {
+    color: #DA251E;
+}
+
+@media screen and (max-width: 610px) {
+    .popup_sign {
+        width: 340px;
+    }
+
+    .button_close {
+        margin-left: 90%;
+    }
+}
