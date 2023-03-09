@@ -1,12 +1,15 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context';
 import { GENERAL_TYPE_TYPES, TYPE_TYPES } from '../../config';
+import { useOutsideAlerter } from '../../utils';
 import css from './catalogMenu.module.css';
 
-function CatalogMenu() {
+function CatalogMenu(props) {
     const [formVisible, setFormVisible] = useState(false)
     const [idGeneralTypes, setIdGeneralTypes] = useState([])
+
+    const {catalogMenuSwitch, catalogButton} = props
 
     const {generalTypes, types} = useContext(UserContext)
 
@@ -14,8 +17,13 @@ function CatalogMenu() {
         setIdGeneralTypes(id)
         setFormVisible(true)
     }
+
+    const catalog = useRef(null)
+
+    useOutsideAlerter(catalog, catalogButton, catalogMenuSwitch)
+
     return (
-        <div className={css.catalog_menu}>
+        <div className={css.catalog_menu} ref={catalog}>
             <div className={css.generals_type}>
                 {generalTypes.data.map( generalType => {
                     return(
@@ -29,8 +37,8 @@ function CatalogMenu() {
                         {types.data.map( type => {
                             if (type[TYPE_TYPES.GENERALTYPEID] === idGeneralTypes) {
                                 return(
-                                    <Link key={type[TYPE_TYPES.ID]} to={`/${type[TYPE_TYPES.ID]}`}>
-                                        <button className={css.type}>{type[TYPE_TYPES.NAME]}</button>
+                                    <Link key={type[TYPE_TYPES.ID]} to={`catalog/${type[TYPE_TYPES.NAME]}`}>
+                                        <button className={css.type} onClick={() => catalogMenuSwitch()}>{type[TYPE_TYPES.NAME]}</button>
                                     </Link>
                                 )
                             }

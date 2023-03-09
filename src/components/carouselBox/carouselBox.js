@@ -1,28 +1,53 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import { COROUSEL_TYPES } from '../../config';
+import { URL_IMG } from '../../config';
+import { request } from '../../requests';
 import css from './carouselBox.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import mock from '../../mock/carousel-mock.js';
 
 function CarouselBox() {
-  const tasksState = (mock.slider)
-  const [slides, setSlides] = useState(tasksState);
+  const [sliders, setSliders] = useState()
+
+  const [loading, setLoading] = useState(false)
+
+  useEffect (() => {
+    const method = 'get'
+
+    const url = `slider`
+
+    const option = {
+      method: method,
+      url: url
+    }
+
+    request(option).then (response => {
+      setSliders(response.data)
+      setLoading(true)
+    }).catch(error => {
+      console.log(error.toJSON())
+    })
+  }, [])
 
   return (
-    <Carousel>
-      {slides.map( slide => {
-        return (
-          <Carousel.Item>
-            <img key={slide[COROUSEL_TYPES.ID]}
-              className="d-block w-100"
-              src={slide[COROUSEL_TYPES.SRCIMG]}
-              alt={slide[COROUSEL_TYPES.ALT]}
-            />
-          </Carousel.Item>
-        )
-      })}
-    </Carousel>
+    <>
+      {loading &&
+        <Carousel>
+          {sliders.map( slider => {
+            return (
+              <Carousel.Item key={slider.id}>
+                <a href={slider.url}>
+                  <img
+                    className={`d-block w-100 ${css.slider}`}
+                    src={URL_IMG+slider.img}
+                    alt={`Слайдер №${slider.id}`}
+                  />
+                </a>
+              </Carousel.Item>
+            )
+          })}
+        </Carousel>
+      }
+    </>
   );
 }
 

@@ -13,7 +13,7 @@
     align-items: flex-start;
 }
 
-.basket_products {
+.basket_products, .basket_additional {
     padding: 20px;
     background: #fff;
     border-radius: 10px;
@@ -81,7 +81,7 @@
     width: 25%;
 }
 
-.btn_submit {
+.btn_submit, .btn_next {
     width: 100%;
     color: #fff;
     border-radius: 5px;
@@ -92,6 +92,26 @@
     padding: 10px;
 }
 
-.btn_submit:hover {
+.btn_submit:hover, .btn_next:hover {
     background: #DA251E;
+}
+
+.basket_additional {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.basket_additional label {
+    margin-bottom: 20px;
+}
+
+.basket_additional input, .basket_additional select {
+    margin-left: 10px;
+}
+
+.client_address {
+    display: flex;
+    flex-direction: column;
 }

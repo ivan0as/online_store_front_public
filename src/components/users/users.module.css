@@ -1,0 +1,48 @@
+.users {
+    margin-left: 20px;
+}
+
+.users_list {
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+.user {
+    border: 3px solid #41A23B;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    width: 100%;
+}
+
+.user:hover {
+    border-color: #DA251E;
+    color: #000;
+}
+
+.users_header:hover {
+    border-color: #41A23B;
+    color: #000;
+}
+
+.user span {
+    width: 100%;
+    text-align:center;
+}
+
+.user span:first-child {
+    border-right: 3px solid #41A23B;
+}
+
+.link_user {
+    color: #000;
+    text-decoration: none;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 135px - 53px - 40px);
+}

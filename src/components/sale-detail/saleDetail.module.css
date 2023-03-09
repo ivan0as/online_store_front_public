@@ -3,15 +3,37 @@
     font-family: 'Oswald', sans-serif;
 }
 
+.btn_back {
+    background: none;
+    border: none;
+    background-color: #41A23B;
+    border-radius: 5px;
+    font-family: 'Oswald', sans-serif;
+    color: #fff;
+    padding: 10px;
+    width: 100px;
+    margin-bottom: 10px;
+}
+
 .sale_info {
     background: #fff;
     border-radius: 10px;
     padding: 20px;
     font-size: 22px;
+    display: flex;
+    flex-direction: column;
 }
 
 .sale_info p:last-child {
     margin-bottom: 0;
+}
+
+.sale_info label {
+    margin-bottom: 16px;
+}
+
+.sale_info input, .sale_info select {
+    margin-left: 10px;
 }
 
 .sales_lineups {
@@ -56,4 +78,25 @@
 
 .sum p {
     margin: 0;
+}
+
+.btn_submit {
+    background-color: #41A23B;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 25px;
+    padding: 10px;
+}
+
+.btn_submit:hover, .btn_back:hover {
+    background-color: #DA251E;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 135px - 53px);
 }

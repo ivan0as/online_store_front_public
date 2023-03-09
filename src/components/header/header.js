@@ -1,21 +1,32 @@
-import { useState, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import { useState, useContext, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { request } from '../../requests';
 import { COMPANY, NUMBER, USER_TYPES } from '../../config';
-import { UserContext, LoadingContext } from '../../context';
+import { UserContext } from '../../context';
 import PopupSign from '../popup-sign';
 import PopupUser from '../popup-user';
 import CatalogMenu from '../catalog-menu';
 import css from './header.module.css';
 import css_app from '../app/app.module.css';
-import logo from './logo.jpg';
+
 
 function Header() {
   const [isFormVisible, setFormVisible] = useState(false)
   const [popupUserFormVisible, setPopupUserFormVisible] = useState(false)
   const [catalogMenuFormVisible, setCatalogMenuFormVisible] = useState(false)
 
-  const {user, setUser, authorization, setAuthorization, setToken} = useContext(UserContext)
+  const navigate = useNavigate()
+
+
+  const {
+    user, 
+    setUser, 
+    authorization, 
+    setAuthorization, 
+    setToken, 
+    search,
+    handleChangeSearch,
+  } = useContext(UserContext)
 
   useEffect(() => {
     if (user.status === 'OK') {
@@ -69,11 +80,7 @@ function Header() {
     
     const url = 'user/registration'
 
-    const data = {
-        [USER_TYPES.EMAIL]: values[USER_TYPES.EMAIL],
-        [USER_TYPES.PASSWORD]: values[USER_TYPES.PASSWORD],
-        [USER_TYPES.PHONE]: values[USER_TYPES.PHONE]
-    }
+    const data = values
     
     const option = {
         method: method,
@@ -97,6 +104,21 @@ function Header() {
     setCatalogMenuFormVisible(!catalogMenuFormVisible)
   }
 
+  const handleSubmit = e => {
+    e.preventDefault()
+
+    if (search) {
+      navigate(`catalog/search?searchName=${search}`)
+    } else {
+      alert('Поле не должно быть пустым')
+    }
+    
+  }
+
+  const catalogButton = useRef(null)
+
+  const popupUserButton = useRef(null)
+
   return (
     <header className={css.header}>
       <div className={`${css_app.container} ${css.header_content}`}>
@@ -114,15 +136,17 @@ function Header() {
         </div>
         <div className={css.header_line_middle}>
           <Link to='/' className={css.link}>
-            <img src={logo} alt='Логотип' className={css.logo_img}/>
+            
             <h1 className={css.h1}>{COMPANY}</h1>
           </Link>
-          <button className={css.catalog} onClick={catalogMenuSwitch}>Каталог</button>
+          <button className={css.catalog} onClick={catalogMenuSwitch} ref={catalogButton}>Каталог</button>
           {catalogMenuFormVisible && (
-            <CatalogMenu />
+            <CatalogMenu catalogMenuSwitch={catalogMenuSwitch} catalogButton={catalogButton}/>
           )}
-          <input className={css.search} placeholder="Введите название лекарства"/>
-          <button className={css.find}>Найти</button>
+          <form className={css.form_search} onSubmit={handleSubmit}>
+            <input className={css.search} placeholder="Введите название лекарства" value={search} onChange={handleChangeSearch}/>
+            <button className={css.find} type='submit'>Найти</button>
+          </form>
           <nav className={css.buttons_user}>
             <ul>
               <Link to='/sales' className={css.link}>
@@ -133,9 +157,9 @@ function Header() {
               </Link>
               {authorization
               ? <li>
-                  <button onClick={popupUserSwitch}>Профиль</button>
+                  <button onClick={popupUserSwitch} ref={popupUserButton}>Профиль</button>
                   {popupUserFormVisible && (
-                    <PopupUser />
+                    <PopupUser popupUserButton={popupUserButton} popupUserSwitch={popupUserSwitch}/>
                   )}
                 </li>
               : <li><button onClick={signIn}>Войти</button></li>

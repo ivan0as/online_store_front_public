@@ -1,0 +1,14 @@
+.catalog {
+    padding: 20px;
+    background: #fff;
+    font-family: 'Oswald', sans-serif;
+}
+
+.breadcrumb {
+    text-decoration: none;
+    color: #333;
+}
+
+.breadcrumb:hover {
+    color: #DA251E;
+}

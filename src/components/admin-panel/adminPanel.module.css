@@ -2,6 +2,7 @@
     font-family: 'Oswald', sans-serif;
     margin: 20px;
     display: flex;
+    align-items: flex-start;
 }
 
 .list_panel {
@@ -35,4 +36,8 @@
 
 .list_panel li button:hover {
     background: #DA251E;
+}
+
+.info_panel {
+    width: 100%;
 }

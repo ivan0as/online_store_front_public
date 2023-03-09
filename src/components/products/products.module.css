@@ -67,10 +67,6 @@
     font-size: 25px;
 }
 
-.text_price {
-    font-size: 18px;
-}
-
 .price {
     font-size: 28px;
 }
@@ -87,6 +83,14 @@
 
 .btn_item_cart:hover {
     background-color: #DA251E;
+}
+
+.loading_products {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 135px - 53px - 80px);
 }
 
 .pagination {
@@ -111,4 +115,11 @@
 
 .pagination button:hover {
     background-color: #DA251E;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 135px - 53px);
 }

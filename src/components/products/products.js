@@ -1,18 +1,23 @@
 import { useState, useEffect, useContext } from 'react';
-import { useParams, Link, useSearchParams } from 'react-router-dom';
+import { useParams, Link, useSearchParams, useLocation } from 'react-router-dom';
 import { UserContext } from '../../context';
 import { request } from '../../requests';
 import { URL_IMG } from '../../config'
 import CountProduct from '../countProduct';
+import Loading from '../loading'
 import css from './products.module.css';
 
 function Products(props) {
 
   const {basketProduct, handleClick} = props
 
+  const {setSearch} = useContext(UserContext)
+
   const {type} = useParams()
 
   const [searchParams, setSearchParams] = useSearchParams()
+
+  const location = useLocation()
 
   const [dataLoading, setDataLoading] = useState(false)
 
@@ -24,7 +29,11 @@ function Products(props) {
 
   const [countries, setCountries] = useState([])
 
+  const [typesSearchParams, setTypesSearchParams] = useState([])
+
   const [searchParamsArray, setSearchParamsArray] = useState([])
+
+  const [loadingProducts, setLoadingProducts] = useState(false)
 
   const getProduct = (params) => {
 
@@ -39,9 +48,13 @@ function Products(props) {
           paramsResult += `&${key}=${value}`
         })
       }
-      url = `product?typeId=${type}${paramsResult}`
+      if (location.pathname === '/catalog/search') {
+        url = `product?${paramsResult}`
+      } else {
+        url = `product?typeName=${type}${paramsResult}`
+      }
     } else {
-      url = `product?typeId=${type}`
+      url = `product?typeName=${type}`
     }
     
     const method = 'get'
@@ -54,6 +67,7 @@ function Products(props) {
     request(option).then (response => {
       setProducts(response)
       setDataLoading(true)
+      setLoadingProducts(true)
 
       const arrPages = []
 
@@ -83,6 +97,7 @@ function Products(props) {
   }, [type, searchParams])
 
   const pagination = (e) => {
+    setLoadingProducts(false)
     const button = e.target.value
     const params = Object.fromEntries([...searchParams])
     setSearchParams({...params, ...{page: button}})
@@ -116,12 +131,33 @@ function Products(props) {
     }).catch(error => {
       console.log(error.toJSON())
     })
+
+    url = 'type'
+
+    option = {
+        method: method,
+        url: url
+    }
+
+    request(option).then (response => {
+      setTypesSearchParams(response.data)
+    }).catch(error => {
+      console.log(error.toJSON())
+    })
+
+    const currentParams = Object.fromEntries([...searchParams])
+    if (currentParams.searchName) {
+      setSearch(currentParams.searchName)
+    }
   }, [])
 
   const handleCheckbox = e => {
+    setLoadingProducts(false)
     const fieldName = e.target.name
     const fieldId = e.target.id
-    const params = Object.fromEntries([...searchParams])
+    let params = Object.fromEntries([...searchParams])
+
+    delete params.page
 
     if (e.target.checked) {
       let value = searchParams.get(fieldName)
@@ -201,24 +237,51 @@ function Products(props) {
                     })}
                   </div>
                 </div>
-              </div>
-              <div className={css.products}>
-                {products.data.rows.map( product => {
-                  return(
-                    <div className={css.product} key={product.id}>
-                      <Link className={css.link} to={`/${type}/${product.id}`}>
-                        <img src={URL_IMG+product.img} alt="Картинка"/>
-                        <p className={css.name}>{product.name}</p>
-                      </Link>
-                      <p className={css.text_price}>от <span className={css.price}>{product.price}</span></p>
-                      {basketProduct(product.id)
-                        ? <CountProduct basketProduct={basketProduct(product.id)} />
-                        : <button className={css.btn_item_cart} onClick={() => handleClick(product)}>В корзину</button>
-                      }
+                {location.pathname === '/catalog/search' &&
+                  <div className={css.filter_info}>
+                    <p className={css.filter_title}>Тип товара: </p>
+                    <div className={css.filter_list}>
+                      {typesSearchParams.map(typeSearchParam => {
+                        return(
+                          <label className={css.filter} key={typeSearchParam.id}>
+                            <input 
+                              type="checkbox" 
+                              id={typeSearchParam.id} 
+                              name='typeId' 
+                              onChange={handleCheckbox}
+                              defaultChecked={checked('typeId', typeSearchParam.id)}
+                            />
+                            <span>{typeSearchParam.name}</span>
+                          </label>
+                        )
+                      })}
                     </div>
-                  )
-                })}
+                  </div>
+                }
               </div>
+              {loadingProducts
+                ?
+                  <div className={css.products}>
+                    {products.data.rows.map( product => {
+                      return(
+                        <div className={css.product} key={product.id}>
+                          <Link className={css.link} to={`${product.id}`}>
+                            <img src={URL_IMG+product.img} alt="Картинка"/>
+                            <p className={css.name}>{product.name}</p>
+                          </Link>
+                          <p className={css.price}>{product.price} рублей</p>
+                          {basketProduct(product.id)
+                            ? <CountProduct basketProduct={basketProduct(product.id)} />
+                            : <button className={css.btn_item_cart} onClick={() => handleClick(product)}>В корзину</button>
+                          }
+                        </div>
+                      )
+                    })}
+                  </div>
+                : <div className={css.loading_products}>
+                    <Loading />
+                  </div>
+              }
             </div>
             <div className={css.pagination}>
               {pages.map(page => {
@@ -228,7 +291,9 @@ function Products(props) {
               })}
             </div>
           </>
-        : <div>1</div>
+        : <div className={css.loading}>
+            <Loading />
+          </div>
       }
     </div>
   );

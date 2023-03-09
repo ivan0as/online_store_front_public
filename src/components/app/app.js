@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { request } from '../../requests';
+import { UserContext } from '../../context';
 import Header from '../header';
 import Main from '../main';
 import Footer from '../footer';
-import { UserContext } from '../../context';
+import Loading from '../loading';
 import css from './app.module.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   const [generalTypes, setGeneralTypes] = useState([])
   const [types, setTypes] = useState([])
   const [basketProducts, setBasketProducts] = useState([])
+  const [search, setSearch] = useState('')
 
   useEffect (() => {
     const method = 'get'
@@ -116,6 +118,8 @@ function App() {
       }).catch(error => {
         console.log(error.toJSON())
       })
+    } else if (!authorization) {
+      setBasketProducts([])
     }
   }, [authorization])
 
@@ -163,6 +167,16 @@ function App() {
     setBasketProducts([])
   }
 
+  const handleChangeSearch = e => {
+		setSearch(e.target.value)
+	}
+
+  const exitAccount = () => {
+    setUser({})
+    localStorage.removeItem('token')
+    setToken(false)
+  }
+
   return (
     <BrowserRouter>
       <UserContext.Provider value={{
@@ -178,6 +192,10 @@ function App() {
         setBasketProducts,
         productDelete,
         basketDelete,
+        search,
+        setSearch,
+        handleChangeSearch,
+        exitAccount,
         }}>
         {loading
           ? <div className={css.app}>
@@ -185,7 +203,9 @@ function App() {
               <Main />
               <Footer />
             </div>
-          : <p>Загрузка</p>
+          : <div className={css.loading}>
+              <Loading />
+            </div>
         }
         
       </UserContext.Provider>

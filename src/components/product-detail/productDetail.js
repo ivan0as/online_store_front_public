@@ -1,31 +1,24 @@
-import { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../../context';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { request } from '../../requests';
-import { URL_IMG } from '../../config'
+import { URL_IMG } from '../../config';
 import CountProduct from '../countProduct';
+import Loading from '../loading';
 import css from './productDetail.module.css';
 
 function ProductDetal(props) {
 
   const {basketProduct, handleClick} = props
-  
-  const {basketProducts, setBasketProducts} = useContext(UserContext)
+
+  const navigate = useNavigate()
+
+  const location = useLocation()
 
   const {id} = useParams()
 
   const [dataLoading, setDataLoading] = useState(false)
 
   const [product, setProduct] = useState([])
-
-  const [producer, setProducer] = useState([])
-
-  const [country, setCountry] = useState([])
-
-  const find = (values, value, setValue) => {
-    const result = values.data.find(({ id }) => id === value)
-    setValue(result)
-  }
 
   useEffect(() => {
     const method = 'get'
@@ -45,64 +38,42 @@ function ProductDetal(props) {
     })
   }, [id])
 
-  useEffect(() => {
-    if (product.length !== 0) {
-      const method = 'get'
-
-      let url = `producer`
-
-      let option = {
-          method: method,
-          url: url
-      }
-
-      request(option).then (response => {
-        find(response, product.data.producerId, setProducer)
-      }).catch(error => {
-        console.log(error.toJSON())
-      })
-
-      url = `country`
-
-      option = {
-          method: method,
-          url: url
-      }
-
-      request(option).then (response => {
-        find(response, product.data.countryId, setCountry)
-      }).catch(error => {
-        console.log(error.toJSON())
-      })
-    }
-  }, [product])
+  const back = () => {
+    navigate(-1)
+  }
 
   return (
     <>
       {dataLoading
-        ? <div className={css.product_detail}>
-            <div className={css.block_img}>
-              <img className={css.img} src={URL_IMG+product.data.img} alt='Картинка' />
+        ? 
+          <div className={css.user_view_interface}>
+            <button onClick={back} className={css.btn_back}>Назад</button>
+            <div className={css.product_detail}>
+              <div className={css.block_img}>
+                <img className={css.img} src={URL_IMG+product.data.img} alt='Картинка' />
+              </div>
+              <div className={css.detail}>
+                <div className={css.block_name}>
+                  <p className={css.name}>{product.data.name}</p>
+                </div>
+                <div className={css.info}>
+                  <p>Производитель: {product.data.producer ? product.data.producer.name : '-'}</p>
+                  <p>Страна: {product.data.country ? product.data.country.name : '-'}</p>
+                </div>
+                <div className={css.block_price}>
+                  <p className={css.text_price}>Цена <span className={css.price}>{product.data.price}</span> руб.</p>
+                  {basketProduct(product.data.id)
+                    ? <CountProduct basketProduct={basketProduct(product.data.id)}/>
+                    : <button className={css.btn_item_cart} onClick={() => handleClick(product.data)}>В корзину</button>
+                  }
+                </div>
+              </div>
             </div>
-            <div className={css.detail}>
-              <div className={css.block_name}>
-                <p className={css.name}>{product.data.name}</p>
-              </div>
-              <div className={css.info}>
-                <p>Описание: {product.data.description}</p>
-                <p>Производитель: {producer.length !==0 ? <span>{producer.name}</span> : <span>Данные не получены</span>}</p>
-                <p>Страна: {country.length !==0 ? <span>{country.name}</span> : <span>Данные не получены</span>}</p>
-              </div>
-              <div className={css.block_price}>
-                <p className={css.text_price}>Цена от <span className={css.price}>{product.data.price}</span> руб.</p>
-                {basketProduct(product.data.id)
-                  ? <CountProduct basketProduct={basketProduct(product.data.id)}/>
-                  : <button className={css.btn_item_cart} onClick={() => handleClick(product.data)}>В корзину</button>
-                }
-              </div>
-            </div>
+            <p className={css.description}>Описание: {product.data.description}</p>
           </div>
-        : <div>1</div>
+        : <div className={css.loading}>
+            <Loading />
+          </div>
       }
     </>
   );

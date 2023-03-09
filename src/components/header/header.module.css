@@ -88,6 +88,11 @@
   background-color: #DA251E;
 }
 
+.form_search {
+  display: flex;
+  width: 100%;
+}
+
 .search {
   border-color: #C7C7C7;
   border-radius: 5px;

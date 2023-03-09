@@ -1,0 +1,8 @@
+.block_authorization_failed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 135px - 53px);
+    font-family: 'Oswald', sans-serif;
+    font-size: 30px;
+}

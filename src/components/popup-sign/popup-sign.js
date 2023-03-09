@@ -43,6 +43,8 @@ export default function PopupSign(props) {
             alert ('Заполните Пароль')
         } else if (!values[USER_TYPES.PHONE]){
             alert ('Заполните Телефон')
+        } else if (!values[USER_TYPES.NAME]){
+            alert ('Заполните Имя')
         } else {
             requestSignUp(values)
         }
@@ -62,6 +64,7 @@ export default function PopupSign(props) {
                         <label>{USER_COPY[USER_TYPES.EMAIL]}<input id='signUpMail' name={[USER_TYPES.EMAIL]} type='text' value={values[USER_TYPES.EMAIL]} onChange={handleChange}/></label>
                         <label>{USER_COPY[USER_TYPES.PASSWORD]}<input id='signUpPassword' name={[USER_TYPES.PASSWORD]} type='text' value={values[USER_TYPES.PASSWORD]} onChange={handleChange}/></label>
                         <label>{USER_COPY[USER_TYPES.PHONE]}<input id='signUpPhone' name={[USER_TYPES.PHONE]} type='text' value={values[USER_TYPES.PHONE]} onChange={handleChange}/></label>
+                        <label>{USER_COPY[USER_TYPES.NAME]}<input id='signUpName' name={[USER_TYPES.NAME]} type='text' value={values[USER_TYPES.NAME]} onChange={handleChange}/></label>
                         <button type='submit'>Зарегистрироваться</button>
                     </form>
                     <button className={css.btn_registration} onClick={buttonSwitch}>Авторизация</button>
